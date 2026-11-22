@@ -18,7 +18,7 @@ Flikarna har delbara adresser: `#guide/duskwood/lore`, `#guide/deadmines/bosses`
 - Samtliga 35 aktuella dungeonvingar, inklusive nio nya Forever-dungeons. Korta boss-, rare- och questmötesnotiser för tank, healer och DPS. Vingarna i Scarlet Monastery, Dire Maul, Stratholme och Blackrock Spire är separata sidor.
 - Tre raidöversikter: Onyxia med förberedande Classic-taktik, samt Barrow Deeps och Hyjal Summit med allmänna förberedelser. Raidöppning anges som 9 december 2026. Fullständiga Forever-bossguider återstår efter verifiering vid öppningen.
 - Alla 12 yrken med material, yrkeskombinationer, fyra progressionsetapper mot 300, lägerfunktioner och ekonomiråd. Etapperna är planeringsstöd; exakta recept och materialantal finns i länkade guider.
-- 4 ekonomiguider och 9 upptäcktsguider, inklusive de tidigare sleeping bag-, fackel- och Miner Johnson-sidorna samt Tome of Dalaran, Scarlet Banner, biblioteksböcker, Malignant Root Alcaz-förklädnaden och Ta’shkal.
+- 4 ekonomiguider och 12 upptäcktsguider, inklusive de tidigare sleeping bag-, fackel- och Miner Johnson-sidorna samt Tome of Dalaran, Scarlet Banner, biblioteksböcker, Malignant Root Alcaz-förklädnaden och Ta’shkal.
 - Sökning över allt innehåll inklusive lore och NPC:er, fraktions- och nivåfilter, sortering, sparade guider, checklistor, egna områdes- och bossanteckningar samt delbara fliklänkar.
 - Favoriter och anteckningar lagras i localStorage, per webbläsare. Ingen server eller inloggning krävs.
 
@@ -38,6 +38,9 @@ World of Warcraft tillhör Blizzard Entertainment. Detta projekt är en oberoend
 
 ## Wiki-fördjupningar och attribution
 
-`lore.js` innehåller 12 svenska kapitel med bakgrund, centrala personer och kopplingar mellan områden. Kapitlen är sammanfattningar och bearbetningar av namngivna Warcraft Wiki-artiklar och delas under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Varje kapitel i lorefliken anger källartikel, bidragsgivare via revisionshistorik och hur texten ändrats. Licensangivelsen omfattar kapiteltexterna och är ingen generell omlicensiering av repots kod, tidigare texter eller Blizzard-material.
+`lore.js` och `lore-more.js` innehåller tillsammans 24 svenska kapitel med bakgrund, centrala personer och kopplingar mellan områden. Kapitlen är sammanfattningar och bearbetningar av namngivna Warcraft Wiki-artiklar och delas under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Varje kapitel i lorefliken anger källartikel, bidragsgivare via revisionshistorik och hur texten ändrats. Licensangivelsen omfattar kapiteltexterna och är ingen generell omlicensiering av repots kod, tidigare texter eller Blizzard-material.
 
 Bakgrunden är historisk. Wiki-artiklarnas Retail-nivåer, senare bossuppsättningar och expansionshändelser importeras inte som Forever-fakta. Fördjupningarna ligger i expanderbara avsnitt med spoilermarkering. Bilder från wikin har inte kopierats; deras respektive fillicenser måste kontrolleras separat.
+
+
+Den andra loreutbyggnaden lägger till Blackfathom, båda Razorfen-instanserna, Maraudon, Duskwoods lie, världsträden, Zul’Farrak, Durotars grundande och Mulgore. Tre nya upptäcktssidor ger startöversikter för Cortellos gåta, Linkens äventyr och Pamela i Darrowshire. De är uttryckligen Classic-underlag där Forevers aktuella detaljer inte verifierats; de är inte fullständiga genomgångar av alla senare queststeg.

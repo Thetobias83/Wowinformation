@@ -7,7 +7,7 @@ const root=path.join(__dirname,'..');
 function environment(){
  const elements=new Map();const element=key=>{if(!elements.has(key))elements.set(key,{innerHTML:'',value:'',textContent:'',classList:{remove(){},toggle(){return false}},setAttribute(){},addEventListener(){},focus(){},scrollIntoView(){}});return elements.get(key);};
  const context=vm.createContext({document:{querySelector:element,querySelectorAll:()=>[],addEventListener(){},activeElement:{tagName:'BODY'}},window:{addEventListener(){},scrollTo(){}},location:{hash:'#home',href:'http://localhost/'},localStorage:{getItem(){return null},setItem(){}},navigator:{},console});
- vm.runInContext(['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','scenes.js','app.js'].map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n'),context);
+ vm.runInContext(['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','scenes.js','app.js'].map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n'),context);
  return {context,element};
 }
 test('every guide and every available tab renders without exceptions',()=>{

@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const root=path.join(__dirname,'..');
-const files=['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','scenes.js'];
+const files=['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','scenes.js'];
 const data=vm.runInNewContext(files.map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n')+';({GUIDES,SOURCES,CATEGORIES,ZONE_BOOK,PROFESSION_BOOK,LORE_CHAPTERS,scene})');
 test('every guide has a unique routable ID and a valid category',()=>{
  const ids=new Set();for(const g of data.GUIDES){assert.match(g.id,/^[a-z0-9-]+$/);assert(!ids.has(g.id),g.id);ids.add(g.id);assert(data.CATEGORIES.some(c=>c[0]===g.category));assert(g.title&&g.intro&&g.subtitle);}
@@ -37,10 +37,15 @@ test('related guide links resolve and earlier user data keys remain valid',()=>{
 test('all areas have substantial exploration and every new secret is connected',()=>{
  for(const g of data.GUIDES.filter(g=>['zones','dungeons','raids'].includes(g.category))){assert(g.exploration.length>=2,g.id);for(const x of g.exploration)assert(x.title&&x.text.length>60&&x.kind,g.id);if(g.category!=='raids')assert(g.lore.length>=2,g.id);}
  for(const id of ['scarlet-banner','library-books','malignant-root','alcaz-disguise','tashkal']){const g=data.GUIDES.find(g=>g.id===id);assert(g.steps.length>=4,id);assert(g.sources.length,id);assert(g.related.length,id);}
- assert.equal(data.GUIDES.filter(g=>g.category==='secrets').length,9);
+ assert.equal(data.GUIDES.filter(g=>g.category==='secrets').length,12);
 });
 
 test('wiki chapters preserve sources and valid cross-area connections',()=>{
- assert.equal(data.LORE_CHAPTERS.length,12);
+ assert.equal(data.LORE_CHAPTERS.length,24);
  const ids=new Set();for(const c of data.LORE_CHAPTERS){assert(!ids.has(c.id),c.id);ids.add(c.id);assert.equal(c.paragraphs.length,3);assert(c.people.length>=2);assert.match(data.SOURCES['lore-'+c.id].url,/^https:\/\/warcraft\.wiki\.gg\/wiki\//);for(const id of c.guides){const g=data.GUIDES.find(g=>g.id===id);assert(g.loreChapters.includes(c.id));}}
+});
+
+test('Classic discovery starts disclose limits and connect to sourced lore',()=>{
+ for(const id of ['cortellos-riddle','linken-adventure','pamela-darrowshire']){const g=data.GUIDES.find(g=>g.id===id);assert.match(g.status,/Forever-detaljer inte verifierade/);assert.match(g.caution,/Ingen fullständig/);assert(g.steps.length>=4);assert(g.loreChapters.length);assert(g.sources.some(k=>k.startsWith('lore-')));assert(g.npcs.length>=2);}
+ for(const id of ['blackfathom-deeps','razorfen-kraul','razorfen-downs','maraudon','duskwood','teldrassil','zulfarrak','durotar','mulgore'])assert(data.GUIDES.find(g=>g.id===id).loreChapters?.length,id);
 });
