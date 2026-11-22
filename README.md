@@ -35,3 +35,9 @@ Kör `node --test tests/content.test.cjs tests/render.test.cjs`. Testerna kontro
 GitHub Actions publicerar den statiska sidan via GitHub Pages. I repots Settings → Pages, välj **GitHub Actions** som källa om Pages inte redan har aktiverats. Arbetsflödet måste lyckas innan sidan kan betraktas som publicerad.
 
 World of Warcraft tillhör Blizzard Entertainment. Detta projekt är en oberoende fansida.
+
+## Wiki-fördjupningar och attribution
+
+`lore.js` innehåller 12 svenska kapitel med bakgrund, centrala personer och kopplingar mellan områden. Kapitlen är sammanfattningar och bearbetningar av namngivna Warcraft Wiki-artiklar och delas under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Varje kapitel i lorefliken anger källartikel, bidragsgivare via revisionshistorik och hur texten ändrats. Licensangivelsen omfattar kapiteltexterna och är ingen generell omlicensiering av repots kod, tidigare texter eller Blizzard-material.
+
+Bakgrunden är historisk. Wiki-artiklarnas Retail-nivåer, senare bossuppsättningar och expansionshändelser importeras inte som Forever-fakta. Fördjupningarna ligger i expanderbara avsnitt med spoilermarkering. Bilder från wikin har inte kopierats; deras respektive fillicenser måste kontrolleras separat.
