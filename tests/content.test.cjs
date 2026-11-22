@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const root=path.join(__dirname,'..');
-const files=['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','scenes.js'];
+const files=['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','dungeon-runs.js','scenes.js'];
 const data=vm.runInNewContext(files.map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n')+';({GUIDES,SOURCES,CATEGORIES,ZONE_BOOK,PROFESSION_BOOK,LORE_CHAPTERS,scene})');
 test('every guide has a unique routable ID and a valid category',()=>{
  const ids=new Set();for(const g of data.GUIDES){assert.match(g.id,/^[a-z0-9-]+$/);assert(!ids.has(g.id),g.id);ids.add(g.id);assert(data.CATEGORIES.some(c=>c[0]===g.category));assert(g.title&&g.intro&&g.subtitle);}
@@ -48,4 +48,11 @@ test('wiki chapters preserve sources and valid cross-area connections',()=>{
 test('Classic discovery starts disclose limits and connect to sourced lore',()=>{
  for(const id of ['cortellos-riddle','linken-adventure','pamela-darrowshire']){const g=data.GUIDES.find(g=>g.id===id);assert.match(g.status,/Forever-detaljer inte verifierade/);assert.match(g.caution,/Ingen fullständig/);assert(g.steps.length>=4);assert(g.loreChapters.length);assert(g.sources.some(k=>k.startsWith('lore-')));assert(g.npcs.length>=2);}
  for(const id of ['blackfathom-deeps','razorfen-kraul','razorfen-downs','maraudon','duskwood','teldrassil','zulfarrak','durotar','mulgore'])assert(data.GUIDES.find(g=>g.id===id).loreChapters?.length,id);
+});
+
+test('expanded dungeon plans have actionable tips and preserve saved boss-note order',()=>{
+ const earlier=vm.runInNewContext(files.filter(f=>f!=='dungeon-runs.js').map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n')+';GUIDES');
+ const expanded=data.GUIDES.filter(g=>g.runPlan);assert.equal(expanded.length,8);
+ for(const g of expanded){assert.equal(g.runPlan.route.length,3);assert.equal(g.runPlan.tips.length,3);assert(g.runPlan.connection.length>100);assert(data.GUIDES.some(x=>x.id===g.runPlan.zone&&x.category==='zones'));for(const tip of g.runPlan.tips)assert(tip.length===4&&tip[0].trim()&&tip.slice(1).every(x=>x.length>10));assert.equal(JSON.stringify(g.bosses.map(b=>b.name)),JSON.stringify(earlier.find(x=>x.id===g.id).bosses.map(b=>b.name)),g.id);}
+ assert.equal(expanded.flatMap(g=>g.bosses).filter(b=>b.smartTip).length,12);
 });

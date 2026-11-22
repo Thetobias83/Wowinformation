@@ -44,3 +44,10 @@ Bakgrunden är historisk. Wiki-artiklarnas Retail-nivåer, senare bossuppsättni
 
 
 Den andra loreutbyggnaden lägger till Blackfathom, båda Razorfen-instanserna, Maraudon, Duskwoods lie, världsträden, Zul’Farrak, Durotars grundande och Mulgore. Tre nya upptäcktssidor ger startöversikter för Cortellos gåta, Linkens äventyr och Pamela i Darrowshire. De är uttryckligen Classic-underlag där Forevers aktuella detaljer inte verifierats; de är inte fullständiga genomgångar av alla senare queststeg.
+
+
+## Dungeons: rutt, smarta val och områdeskoppling
+
+`dungeon-runs.js` bygger ut åtta tidiga instanser: Ragefire Chasm, Hall of Thanes, Ruins of Lordaeron, Deadmines, Wailing Caverns, Shadowfang Keep, Blackfathom Deeps och Stockade. Varje guide har en plan i tre delar och tre konkreta tips med situation, åtgärd och förklaring. Översikten förklarar kopplingen till zonens berättelse och länkar till mer lore. Stockade ligger uttryckligen i Stormwind; Elwynn-länken ger omgivningens sammanhang. Tolv namngivna bossmöten har dessutom fått tydligare tips eller rollnotiser.
+
+Ruttfaserna är orientering, inte geometriska kartor eller en garanti för exakt bossordning. Praktiska gruppråd hålls åtskilda från källornas mekaniker. Bossarnas ordning och anteckningsnycklar bevaras.
