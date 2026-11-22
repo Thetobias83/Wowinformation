@@ -6,16 +6,23 @@ Svensk, mobilanpassad fanguide för World of Warcraft: Forever. Byggd med vanlig
 
 Kör `python -m http.server 4173 --bind 127.0.0.1` från den här mappen och öppna `http://127.0.0.1:4173`.
 
+## Områdessidor och flikar
+
+Varje område, dungeon och raid har en egen sida med ett miljöanpassat tema och en egen stiliserad SVG-scen. Färger, vegetation, byggnader och landskap följer områdets miljö: exempelvis snö, djungel, pestmarker, kust, öken eller arkanmagi.
+
+Flikarna har delbara adresser: `#guide/duskwood/lore`, `#guide/deadmines/bosses` och `#guide/mining/leveling`. De tidigare adresserna `#guide/deadmines` fungerar fortfarande. Guide-ID:n och befintliga localStorage-nycklar har behållits.
+
 ## Innehåll och funktioner
 
-- 12 zonöversikter med praktiska råd och fraktionsfilter.
-- Deadmines, Wailing Caverns och Shadowfang Keep: bossgenomgångar, rare-möten och rollnotiser för tank, healer och DPS.
+- 44 utomhusområden: klassiska levelingzoner, rese-/klassnav och de fyra nya Forever-regionerna. Egna loretexter, viktiga personer, tips och relaterade guider.
+- Samtliga 35 aktuella dungeonvingar, inklusive nio nya Forever-dungeons. Korta boss-, rare- och questmötesnotiser för tank, healer och DPS. Vingarna i Scarlet Monastery, Dire Maul, Stratholme och Blackrock Spire är separata sidor.
 - Tre raidöversikter: Onyxia med förberedande Classic-taktik, samt Barrow Deeps och Hyjal Summit med allmänna förberedelser. Raidöppning anges som 9 december 2026. Fullständiga Forever-bossguider återstår efter verifiering vid öppningen.
-- 12 yrkesintroduktioner, 4 ekonomiguider och 3 upptäcktsguider.
-- Sökning över allt innehåll, fraktions- och nivåfilter, sparade guider, stegchecklistor, egna anteckningar och delbara guidelänkar.
+- Alla 12 yrken med material, yrkeskombinationer, fyra progressionsetapper mot 300, lägerfunktioner och ekonomiråd. Etapperna är planeringsstöd; exakta recept och materialantal finns i länkade guider.
+- 4 ekonomiguider och 4 upptäcktsguider, inklusive de tidigare sleeping bag-, fackel- och Miner Johnson-sidorna samt Tome of Dalaran.
+- Sökning över allt innehåll inklusive lore och NPC:er, fraktions- och nivåfilter, sortering, sparade guider, checklistor, egna områdes- och bossanteckningar samt delbara fliklänkar.
 - Favoriter och anteckningar lagras i localStorage, per webbläsare. Ingen server eller inloggning krävs.
 
-`data.js` innehåller redaktionellt material och källor. `app.js` sköter navigation och interaktion. `style.css` innehåller mobil- och skrivbordslayout. Illustrationerna är egna SVG-filer eller SVG-former i koden. Google Fonts laddas externt med lokala typsnittsreserver.
+`data.js` behåller ursprungligt innehåll och ID:n. `world.js`, `professions.js`, `dungeons.js` och `details.js` utökar katalogen. `scenes.js` ritar områdesmiljöer, `app.js` sköter navigation och `areas.css` lägger till sidornas teman. Google Fonts laddas externt med lokala typsnittsreserver.
 
 ## Innehållspolicy
 
@@ -23,7 +30,7 @@ Senaste redaktionella kontroll: 2026-11-22. Skilj på Forever, Classic Era, Seas
 
 ## Kontrollera
 
-Kör `node --test tests/content.test.cjs` för innehålls- och strukturella kontroller. Syntaxkontroll: `node --check app.js` och `node --check data.js`.
+Kör `node --test tests/content.test.cjs tests/render.test.cjs`. Testerna kontrollerar hela dungeonlistan, alla yrken, lore/NPC/tema för områdena, datalänkar, rollnotiser och rendering av samtliga flikar. Browserkontroller behövs dessutom för visuell layout och lagring. Kontrollera JavaScript-filer med `node --check`.
 
 GitHub Actions publicerar den statiska sidan via GitHub Pages. I repots Settings → Pages, välj **GitHub Actions** som källa om Pages inte redan har aktiverats. Arbetsflödet måste lyckas innan sidan kan betraktas som publicerad.
 

@@ -4,16 +4,31 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const root=path.join(__dirname,'..');
-const data=vm.runInNewContext(fs.readFileSync(path.join(root,'data.js'),'utf8')+';({GUIDES,SOURCES,CATEGORIES})');
+const files=['data.js','world.js','professions.js','dungeons.js','details.js','scenes.js'];
+const data=vm.runInNewContext(files.map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n')+';({GUIDES,SOURCES,CATEGORIES,ZONE_BOOK,PROFESSION_BOOK,scene})');
 test('every guide has a unique routable ID and a valid category',()=>{
  const ids=new Set();for(const g of data.GUIDES){assert.match(g.id,/^[a-z0-9-]+$/);assert(!ids.has(g.id),g.id);ids.add(g.id);assert(data.CATEGORIES.some(c=>c[0]===g.category));assert(g.title&&g.intro&&g.subtitle);}
 });
 test('every published dungeon boss has mechanics and all three role notes',()=>{
- for(const g of data.GUIDES.filter(g=>g.category==='dungeons')){assert(g.bosses.length>=8);assert(g.min<=g.max);assert(g.sources.length);for(const b of g.bosses){for(const key of ['name','mechanic','tank','healer','dps'])assert(b[key]?.trim(),g.id+': '+key);}}
+ for(const g of data.GUIDES.filter(g=>g.category==='dungeons')){assert(g.bosses.length>=1);assert(g.min<=g.max);assert(g.sources.length);for(const b of g.bosses){for(const key of ['name','mechanic','tank','healer','dps'])assert(b[key]?.trim(),g.id+': '+key);}}
 });
 test('guide source references resolve to HTTPS sources',()=>{for(const g of data.GUIDES)for(const ref of g.sources||[])assert.match(data.SOURCES[ref]?.url||'',/^https:\/\//);});
 test('unreleased raids disclose their limits and do not fabricate boss fights',()=>{
  for(const id of ['barrow-deeps','hyjal-summit']){const g=data.GUIDES.find(g=>g.id===id);assert(!g.bosses);assert.match(g.status,/inväntar/);assert(g.caution);}
  assert.match(data.GUIDES.find(g=>g.id==='onyxia').caution,/inte verifierad/);
 });
-test('static entry references real local assets and Swedish language',()=>{const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert.match(html,/<html lang="sv">/);for(const file of ['app.js','data.js','style.css','compass.svg','landscape.svg'])assert(fs.existsSync(path.join(root,file)),file);});
+test('static entry loads every content file before the UI',()=>{const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert.match(html,/<html lang="sv">/);for(const file of [...files,'app.js','style.css','areas.css','compass.svg']){assert(fs.existsSync(path.join(root,file)),file);assert(html.includes('./'+file),file);}assert(html.indexOf('./details.js')<html.indexOf('./app.js'));});
+test('all 35 current Forever dungeon wings are present',()=>{
+ const expected=['ragefire-chasm','hall-of-thanes','ruins-of-lordaeron','deadmines','wailing-caverns','shadowfang-keep','blackfathom-deeps','stockade','excavation-site','city-of-dalaran','gnomeregan','razorfen-kraul','sm-graveyard','sm-library','sm-armory','sm-cathedral','razorfen-downs','drowned-city','kroldok','uldaman','zulfarrak','maraudon','alcaz-prison','sunken-temple','blackrock-depths','dire-maul-east','dire-maul-west','dire-maul-north','lower-blackrock-spire','upper-blackrock-spire','blackmaw-hold','shapers-terrace','stratholme-live','stratholme-undead','scholomance'];
+ const ids=data.GUIDES.filter(g=>g.category==='dungeons').map(g=>g.id);assert.equal(ids.length,35);for(const id of expected)assert(ids.includes(id),id);
+});
+test('all area pages have a theme, lore and important people',()=>{
+ for(const g of data.GUIDES.filter(g=>['zones','dungeons','raids'].includes(g.category))){assert(g.biome,g.id);assert(g.lore?.length,g.id);assert(g.npcs?.length,g.id);assert(g.sources?.length,g.id);assert.match(data.scene(g),/<svg/);}
+ assert.equal(data.GUIDES.filter(g=>g.category==='zones').length,44);
+});
+test('every profession has four skill stages, camping, materials and gold advice',()=>{
+ const list=data.GUIDES.filter(g=>g.category==='professions');assert.equal(list.length,12);for(const g of list){assert.equal(g.profession.stages.length,4,g.id);assert.equal(g.profession.camp.length,3,g.id);assert(g.profession.tools&&g.profession.pair&&g.gold,g.id);}
+});
+test('related guide links resolve and earlier user data keys remain valid',()=>{
+ const ids=new Set(data.GUIDES.map(g=>g.id));for(const g of data.GUIDES)for(const id of g.related||[])assert(ids.has(id),id);for(const id of ['deadmines','duskwood-torch','sleeping-bag','miner-johnson','elwynn','barrens'])assert(ids.has(id));
+});
