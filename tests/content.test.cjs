@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const root=path.join(__dirname,'..');
-const files=['data.js','world.js','professions.js','dungeons.js','details.js','scenes.js'];
+const files=['data.js','world.js','professions.js','dungeons.js','details.js','research.js','scenes.js'];
 const data=vm.runInNewContext(files.map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n')+';({GUIDES,SOURCES,CATEGORIES,ZONE_BOOK,PROFESSION_BOOK,scene})');
 test('every guide has a unique routable ID and a valid category',()=>{
  const ids=new Set();for(const g of data.GUIDES){assert.match(g.id,/^[a-z0-9-]+$/);assert(!ids.has(g.id),g.id);ids.add(g.id);assert(data.CATEGORIES.some(c=>c[0]===g.category));assert(g.title&&g.intro&&g.subtitle);}
@@ -31,4 +31,11 @@ test('every profession has four skill stages, camping, materials and gold advice
 });
 test('related guide links resolve and earlier user data keys remain valid',()=>{
  const ids=new Set(data.GUIDES.map(g=>g.id));for(const g of data.GUIDES)for(const id of g.related||[])assert(ids.has(id),id);for(const id of ['deadmines','duskwood-torch','sleeping-bag','miner-johnson','elwynn','barrens'])assert(ids.has(id));
+});
+
+
+test('all areas have substantial exploration and every new secret is connected',()=>{
+ for(const g of data.GUIDES.filter(g=>['zones','dungeons','raids'].includes(g.category))){assert(g.exploration.length>=2,g.id);for(const x of g.exploration)assert(x.title&&x.text.length>60&&x.kind,g.id);if(g.category!=='raids')assert(g.lore.length>=2,g.id);}
+ for(const id of ['scarlet-banner','library-books','malignant-root','alcaz-disguise','tashkal']){const g=data.GUIDES.find(g=>g.id===id);assert(g.steps.length>=4,id);assert(g.sources.length,id);assert(g.related.length,id);}
+ assert.equal(data.GUIDES.filter(g=>g.category==='secrets').length,9);
 });

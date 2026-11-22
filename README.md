@@ -18,11 +18,11 @@ Flikarna har delbara adresser: `#guide/duskwood/lore`, `#guide/deadmines/bosses`
 - Samtliga 35 aktuella dungeonvingar, inklusive nio nya Forever-dungeons. Korta boss-, rare- och questmötesnotiser för tank, healer och DPS. Vingarna i Scarlet Monastery, Dire Maul, Stratholme och Blackrock Spire är separata sidor.
 - Tre raidöversikter: Onyxia med förberedande Classic-taktik, samt Barrow Deeps och Hyjal Summit med allmänna förberedelser. Raidöppning anges som 9 december 2026. Fullständiga Forever-bossguider återstår efter verifiering vid öppningen.
 - Alla 12 yrken med material, yrkeskombinationer, fyra progressionsetapper mot 300, lägerfunktioner och ekonomiråd. Etapperna är planeringsstöd; exakta recept och materialantal finns i länkade guider.
-- 4 ekonomiguider och 4 upptäcktsguider, inklusive de tidigare sleeping bag-, fackel- och Miner Johnson-sidorna samt Tome of Dalaran.
+- 4 ekonomiguider och 9 upptäcktsguider, inklusive de tidigare sleeping bag-, fackel- och Miner Johnson-sidorna samt Tome of Dalaran, Scarlet Banner, biblioteksböcker, Malignant Root Alcaz-förklädnaden och Ta’shkal.
 - Sökning över allt innehåll inklusive lore och NPC:er, fraktions- och nivåfilter, sortering, sparade guider, checklistor, egna områdes- och bossanteckningar samt delbara fliklänkar.
 - Favoriter och anteckningar lagras i localStorage, per webbläsare. Ingen server eller inloggning krävs.
 
-`data.js` behåller ursprungligt innehåll och ID:n. `world.js`, `professions.js`, `dungeons.js` och `details.js` utökar katalogen. `scenes.js` ritar områdesmiljöer, `app.js` sköter navigation och `areas.css` lägger till sidornas teman. Google Fonts laddas externt med lokala typsnittsreserver.
+`data.js` behåller ursprungligt innehåll och ID:n. `world.js`, `professions.js`, `dungeons.js` och `details.js` utökar katalogen. `research.js` lägger till områdesspecifik utforskning, extra miljölore och fem källbaserade hemligheter. Alla 44 områden, 35 dungeonvingar och tre raidöversikter har fliken Utforska. Sekvensbilderna visar pusselordning, inte geografiska kartor. `scenes.js` ritar områdesmiljöer, `app.js` sköter navigation och `areas.css` lägger till sidornas teman. Google Fonts laddas externt med lokala typsnittsreserver.
 
 ## Innehållspolicy
 
