@@ -67,3 +67,6 @@ Kalkyltester omfattar negativa och ogiltiga värden, nolltid, netto efter kostna
 `auction-house.js` fördjupar befintliga auktionsguiden med åtta arbetsmetoder, fem egna räkneexempel och en batchkalkyl. Metoderna omfattar råvaruförsäljning, stackstorlek, crafting, små återförsäljningar, observerad efterfrågan, felpriser, lagerbudget och omläggning. Exemplen skiljer marginal på sålda varor från kassaflöde och osålt lager. Alla priser är påhittade. Methods Forever-guide stödjer avgifts- och depositionsbeskrivningen; Auctionators författarsida länkas som valfritt hjälpmedel.
 
 Kalkylen antar full försäljning och beräknar netto, nollpunkt och högsta inköpspris för ett eget vinstmål. Gränser avrundas till koppar i försiktig riktning; spelets avgiftsavrundning och efterfrågan modelleras inte. Befintliga checklistor och notisnycklar är bevarade.
+
+
+Auktionsguidens fortsättning COD & materialhandel förklarar återkommande leverantörer, tidsbegränsat fast inköpspris, beställningstak och reserverat rörelsekapital. Egna exempel jämför inköp med avgifter, marginal, prisfall och köpgräns. Företags- och börsanalogier förklarar begreppen utan att utge material för värdepapper. Blizzards äldre manual används bara för COD-grundprincipen; aktuella Forever-tider och postbegränsningar påstås inte vara verifierade.

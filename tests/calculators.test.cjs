@@ -4,6 +4,12 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const calc=vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../calculators.js'),'utf8')+';({goldResult,statResult,hitResult,auctionResult})');
+test('supplier example covers purchase ceiling and downside at a fixed COD price',()=>{
+ const batch={quantity:100,buy:0.35,sell:0.45,fee:5,losses:0,other:0.75,goal:5};
+ let r=calc.auctionResult(batch);assert.equal(r.net,7);assert.equal(r.maxBuy,0.37);
+ r=calc.auctionResult({...batch,sell:0.40});assert.equal(r.maxBuy,0.3225);
+ r=calc.auctionResult({...batch,sell:0.36});assert(Math.abs(r.net+1.55)<1e-9);
+});
 test('gold accounts for sales, vendor loot, failed deposits and full run time',()=>{
  const r=calc.goldResult({sales:35,vendor:5,materials:8,fees:2,deposits:1,expenses:4,minutes:30});assert.equal(r.net,25);assert.equal(r.perHour,50);
  const loss=calc.goldResult({sales:0,vendor:1,materials:0,fees:0,deposits:2,expenses:3,minutes:60});assert.equal(loss.net,-4);assert.equal(loss.perHour,-4);
