@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
-const calc=vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../calculators.js'),'utf8')+';({goldResult,statResult,hitResult})');
+const calc=vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../calculators.js'),'utf8')+';({goldResult,statResult,hitResult,auctionResult})');
 test('gold accounts for sales, vendor loot, failed deposits and full run time',()=>{
  const r=calc.goldResult({sales:35,vendor:5,materials:8,fees:2,deposits:1,expenses:4,minutes:30});assert.equal(r.net,25);assert.equal(r.perHour,50);
  const loss=calc.goldResult({sales:0,vendor:1,materials:0,fees:0,deposits:2,expenses:3,minutes:60});assert.equal(loss.net,-4);assert.equal(loss.perHour,-4);
@@ -23,3 +23,5 @@ test('hit helper separates bonus deficit and surplus without supplying a game ca
  r=calc.hitResult({gear:9,talents:0,buffs:1,target:8});assert.equal(r.missing,0);assert.equal(r.surplus,2);
  assert(calc.hitResult({gear:3,talents:2,buffs:1,target:NaN}).error);assert(calc.hitResult({gear:300,talents:0,buffs:0,target:8}).error);
 });
+
+test('auction batch calculates net, conservative copper limits and price-fall losses',()=>{const input={quantity:20,buy:0.4,sell:0.5,fee:5,losses:0,other:0.5,goal:1};let r=calc.auctionResult(input);assert.equal(r.net,1);assert.equal(r.breakEven,0.4474);assert.equal(r.maxBuy,0.4);r=calc.auctionResult({...input,sell:0.42});assert(Math.abs(r.net+0.52)<1e-9);assert(calc.auctionResult({...input,goal:100}).maxBuy<0);for(const patch of [{quantity:0},{quantity:1.5},{fee:100},{fee:Infinity},{buy:-1}])assert(calc.auctionResult({...input,...patch}).error);assert.equal(calc.auctionResult({...input,buy:0,sell:0,other:0,goal:0}).net,0);});

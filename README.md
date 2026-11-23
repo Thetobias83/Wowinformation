@@ -60,3 +60,10 @@ Ruttfaserna är orientering, inte geometriska kartor eller en garanti för exakt
 `calculators.js` innehåller tre lokala räknehjälper: rundans netto och guld/timme, viktad jämförelse A/B med egna vikter samt skillnad till ett eget träffbonusmål. Formler, enheter och begränsningar står vid verktygen. Prisdata, karaktärer och simulatorresultat hämtas inte live. Osålt lager räknas inte som intäkt. Viktningspoäng är inte DPS/HPS och saknar exempelvis procs och cap-logik. `player-ui.js` visar guiderna. Egna beräkningar sparas inte permanent.
 
 Kalkyltester omfattar negativa och ogiltiga värden, nolltid, netto efter kostnader, egen statsviktning samt målunderskott/överskott. Samtliga nya flikar ingår också i renderingskontrollen.
+
+
+## Auktionshuset: strategier och exempel
+
+`auction-house.js` fördjupar befintliga auktionsguiden med åtta arbetsmetoder, fem egna räkneexempel och en batchkalkyl. Metoderna omfattar råvaruförsäljning, stackstorlek, crafting, små återförsäljningar, observerad efterfrågan, felpriser, lagerbudget och omläggning. Exemplen skiljer marginal på sålda varor från kassaflöde och osålt lager. Alla priser är påhittade. Methods Forever-guide stödjer avgifts- och depositionsbeskrivningen; Auctionators författarsida länkas som valfritt hjälpmedel.
+
+Kalkylen antar full försäljning och beräknar netto, nollpunkt och högsta inköpspris för ett eget vinstmål. Gränser avrundas till koppar i försiktig riktning; spelets avgiftsavrundning och efterfrågan modelleras inte. Befintliga checklistor och notisnycklar är bevarade.

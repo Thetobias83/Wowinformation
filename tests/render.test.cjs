@@ -7,7 +7,7 @@ const root=path.join(__dirname,'..');
 function environment(){
  const elements=new Map();const element=key=>{if(!elements.has(key))elements.set(key,{innerHTML:'',value:'',textContent:'',classList:{remove(){},toggle(){return false}},setAttribute(){},addEventListener(){},focus(){},scrollIntoView(){}});return elements.get(key);};
  const context=vm.createContext({document:{querySelector:element,querySelectorAll:()=>[],addEventListener(){},activeElement:{tagName:'BODY'}},window:{addEventListener(){},scrollTo(){}},location:{hash:'#home',href:'http://localhost/'},localStorage:{getItem(){return null},setItem(){}},navigator:{},console});
- vm.runInContext(['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','dungeon-runs.js','player-guides.js','calculators.js','player-ui.js','scenes.js','app.js'].map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n'),context);
+ vm.runInContext(['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','dungeon-runs.js','player-guides.js','calculators.js','player-ui.js','auction-house.js','scenes.js','app.js'].map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n'),context);
  return {context,element};
 }
 test('every guide and every available tab renders without exceptions',()=>{
@@ -43,3 +43,5 @@ test('new sections expose usable stats, class-role links and calculators',()=>{
  ['#guide/gold-cloth/tools',['Förlorade depositioner','data-calculator="gold"','Total tid']]
  ]){context.location.hash=route;vm.runInContext('render()',context);for(const text of checks)assert(element('#main').innerHTML.includes(text),route+': '+text);}
 });
+
+test('auction hub exposes strategies, worked examples and independent batch and actual calculators',()=>{const {context,element}=environment();for(const [tab,expected] of [['strategies','Åtta sätt'],['examples','Bara halva lagret'],['tools','ah-quantity'],['guide','En enkel handelsjournal']]){context.location.hash='#guide/auction-house/'+tab;vm.runInContext('render()',context);assert(element('#main').innerHTML.includes(expected),tab);}const html=element('#main').innerHTML;assert(html.includes('Egna notiser'));context.location.hash='#guide/auction-house/tools';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('calc-sales'));assert.equal(vm.runInContext('AUCTION_STRATEGIES.length',context),8);});
