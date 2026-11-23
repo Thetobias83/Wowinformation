@@ -34,3 +34,11 @@ test('actions preserve saved plans and a copied evening resets attendance withou
  action('export');const backup=element('#rp-output').value;assert.equal(JSON.parse(backup).plan.title,'Guildkväll · ny kväll');element('#rp-import').value=backup;action('import');assert.equal(vm.runInContext('rpLoad().plans.length',context),3);
  vm.runInContext('rpDirty=true',context);action('new');assert.equal(vm.runInContext('rpLoad().plans.length',context),3);assert.match(element('#rp-status').textContent,/Spara ändringarna/);
 });
+test('fight plans survive backup, old plans still import and class-role briefs filter correctly',()=>{
+ const {run}=env();run('var p=rpNew();p.fights=[rpFightExample()];var imported=rpImport(JSON.stringify({version:1,plan:p}));');
+ assert.equal(run('imported.plan.fights[0].phases.length'),3);run('imported.plan.fights[0].phases[0].tasks[0].action="Changed"');assert.notEqual(run('p.fights[0].phases[0].tasks[0].action'),'Changed');
+ const brief=run('rpFightText(p.fights[0],"healer","Priest")');assert.match(brief,/Tankhealer/);assert(!brief.includes('Warrior · Tank'));assert(!brief.includes('Druid · Healer'));
+ assert.match(run('rpText(p)'),/BOSS: Träningsexempel/);
+ run('delete p.fights');assert.equal(run('rpImport(JSON.stringify({version:1,plan:p})).error'),undefined);assert.equal(run('rpImport(JSON.stringify({version:1,plan:p})).plan.fights.length'),0);
+ run('p.fights=[rpBlankFight()];p.fights[0].phases[0].tasks[0].role="invalid"');assert(run('rpValidate(p)'));run('p.fights=Array(13).fill(rpBlankFight())');assert(run('rpValidate(p)'));
+});
