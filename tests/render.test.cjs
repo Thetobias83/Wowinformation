@@ -7,7 +7,7 @@ const root=path.join(__dirname,'..');
 function environment(){
  const elements=new Map();const element=key=>{if(!elements.has(key))elements.set(key,{innerHTML:'',value:'',textContent:'',classList:{remove(){},toggle(){return false}},setAttribute(){},addEventListener(){},focus(){},scrollIntoView(){}});return elements.get(key);};
  const context=vm.createContext({document:{querySelector:element,querySelectorAll:()=>[],addEventListener(){},activeElement:{tagName:'BODY'}},window:{addEventListener(){},scrollTo(){}},location:{hash:'#home',href:'http://localhost/'},localStorage:{getItem(){return null},setItem(){}},navigator:{},console});
- vm.runInContext(['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','dungeon-runs.js','scenes.js','app.js'].map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n'),context);
+ vm.runInContext(['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','dungeon-runs.js','player-guides.js','calculators.js','player-ui.js','scenes.js','app.js'].map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n'),context);
  return {context,element};
 }
 test('every guide and every available tab renders without exceptions',()=>{
@@ -31,4 +31,15 @@ test('run plans link the zone story and explain the reason behind each tip',()=>
  const {context,element}=environment();context.location.hash='#guide/deadmines/run';vm.runInContext('render()',context);let html=element('#main').innerHTML;assert(html.includes('Rutt &amp; tips'));assert(html.includes('Två faser är en fight'));assert(html.includes('Varför?'));assert(html.includes('#guide/westfall/lore'));
  context.location.hash='#guide/deadmines/guide';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('Varför ligger äventyret här?'));
  context.location.hash='#guide/deadmines/bosses';vm.runInContext('render()',context);html=element('#main').innerHTML;assert(html.includes('Smart tips'));assert(html.includes('boss-note-2'));
+});
+
+test('new sections expose usable stats, class-role links and calculators',()=>{
+ const {context,element}=environment();
+ for(const [route,checks] of [
+ ['#guide/role-tank/guide',['class-warrior','class-paladin','class-druid']],
+ ['#guide/class-druid/stats',['björn','katt','Balance','Restoration']],
+ ['#guide/class-hunter/tools',['data-stat-weight','Ditt verifierade bonusmål','inte DPS']],
+ ['#guide/gold-cloth/guide',['Northfold','När byter','Räkna rundans']],
+ ['#guide/gold-cloth/tools',['Förlorade depositioner','data-calculator="gold"','Total tid']]
+ ]){context.location.hash=route;vm.runInContext('render()',context);for(const text of checks)assert(element('#main').innerHTML.includes(text),route+': '+text);}
 });

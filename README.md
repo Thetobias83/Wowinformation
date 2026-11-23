@@ -51,3 +51,12 @@ Den andra loreutbyggnaden lägger till Blackfathom, båda Razorfen-instanserna, 
 `dungeon-runs.js` bygger ut åtta tidiga instanser: Ragefire Chasm, Hall of Thanes, Ruins of Lordaeron, Deadmines, Wailing Caverns, Shadowfang Keep, Blackfathom Deeps och Stockade. Varje guide har en plan i tre delar och tre konkreta tips med situation, åtgärd och förklaring. Översikten förklarar kopplingen till zonens berättelse och länkar till mer lore. Stockade ligger uttryckligen i Stormwind; Elwynn-länken ger omgivningens sammanhang. Tolv namngivna bossmöten har dessutom fått tydligare tips eller rollnotiser.
 
 Ruttfaserna är orientering, inte geometriska kartor eller en garanti för exakt bossordning. Praktiska gruppråd hålls åtskilda från källornas mekaniker. Bossarnas ordning och anteckningsnycklar bevaras.
+
+
+## Guld, roller, klasser och räknehjälp (23 november 2026)
+
+`player-guides.js` lägger till sju praktiska guldguider (totalt elva), fyra rollguider och nio klassguider. Guldguiderna har förutsättningar, konkreta startalternativ, arbetssteg, säljstrategi och kriterier för när man byter metod. Stats beskrivs per roll/build som orientering, inte en universell rangordning. Källornas exakta hit-tal skiljer sig; inga osäkra cap-värden eller universella statsvikter förinställs.
+
+`calculators.js` innehåller tre lokala räknehjälper: rundans netto och guld/timme, viktad jämförelse A/B med egna vikter samt skillnad till ett eget träffbonusmål. Formler, enheter och begränsningar står vid verktygen. Prisdata, karaktärer och simulatorresultat hämtas inte live. Osålt lager räknas inte som intäkt. Viktningspoäng är inte DPS/HPS och saknar exempelvis procs och cap-logik. `player-ui.js` visar guiderna. Egna beräkningar sparas inte permanent.
+
+Kalkyltester omfattar negativa och ogiltiga värden, nolltid, netto efter kostnader, egen statsviktning samt målunderskott/överskott. Samtliga nya flikar ingår också i renderingskontrollen.

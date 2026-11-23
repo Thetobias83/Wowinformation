@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const root=path.join(__dirname,'..');
-const files=['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','dungeon-runs.js','scenes.js'];
+const files=['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','dungeon-runs.js','player-guides.js','calculators.js','player-ui.js','scenes.js'];
 const data=vm.runInNewContext(files.map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n')+';({GUIDES,SOURCES,CATEGORIES,ZONE_BOOK,PROFESSION_BOOK,LORE_CHAPTERS,scene})');
 test('every guide has a unique routable ID and a valid category',()=>{
  const ids=new Set();for(const g of data.GUIDES){assert.match(g.id,/^[a-z0-9-]+$/);assert(!ids.has(g.id),g.id);ids.add(g.id);assert(data.CATEGORIES.some(c=>c[0]===g.category));assert(g.title&&g.intro&&g.subtitle);}
@@ -55,4 +55,16 @@ test('expanded dungeon plans have actionable tips and preserve saved boss-note o
  const expanded=data.GUIDES.filter(g=>g.runPlan);assert.equal(expanded.length,8);
  for(const g of expanded){assert.equal(g.runPlan.route.length,3);assert.equal(g.runPlan.tips.length,3);assert(g.runPlan.connection.length>100);assert(data.GUIDES.some(x=>x.id===g.runPlan.zone&&x.category==='zones'));for(const tip of g.runPlan.tips)assert(tip.length===4&&tip[0].trim()&&tip.slice(1).every(x=>x.length>10));assert.equal(JSON.stringify(g.bosses.map(b=>b.name)),JSON.stringify(earlier.find(x=>x.id===g.id).bosses.map(b=>b.name)),g.id);}
  assert.equal(expanded.flatMap(g=>g.bosses).filter(b=>b.smartTip).length,12);
+});
+
+test('all nine classes map to conventional Forever roles and explain build-specific stats',()=>{
+ const list=data.GUIDES.filter(g=>g.classInfo);assert.equal(list.length,9);assert.equal(data.GUIDES.filter(g=>g.roleKey).length,4);
+ for(const g of list){assert(g.sources.length>=2,g.id);assert(g.classInfo.profiles.length,g.id);for(const row of g.classInfo.profiles)assert.equal(row.length,3);for(const r of g.classInfo.roles){const role=data.GUIDES.find(x=>x.id==='role-'+r);assert(role.related.includes(g.id));}}
+ for(const id of ['mage','warlock','rogue','hunter'])assert(!list.find(g=>g.id==='class-'+id).classInfo.roles.includes('healer'));
+ assert(!list.find(g=>g.id==='class-shaman').classInfo.roles.includes('tank'));
+});
+test('practical gold guides include a method, selling plan and stop criteria',()=>{
+ const list=data.GUIDES.filter(g=>g.farmPlan);assert.equal(list.length,7);assert.equal(data.GUIDES.filter(g=>g.category==='gold').length,11);
+ for(const g of list){assert(g.farmPlan.needs&&g.farmPlan.targets.length&&g.farmPlan.sell&&g.farmPlan.stop);assert.equal(g.steps.length,4);}
+ const workflow=fs.readFileSync(path.join(root,'.github/workflows/pages.yml'),'utf8');for(const f of ['player-guides.js','calculators.js','player-ui.js'])assert(workflow.includes(f),f);
 });
