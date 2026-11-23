@@ -70,3 +70,10 @@ Kalkylen antar full försäljning och beräknar netto, nollpunkt och högsta ink
 
 
 Auktionsguidens fortsättning COD & materialhandel förklarar återkommande leverantörer, tidsbegränsat fast inköpspris, beställningstak och reserverat rörelsekapital. Egna exempel jämför inköp med avgifter, marginal, prisfall och köpgräns. Företags- och börsanalogier förklarar begreppen utan att utge material för värdepapper. Blizzards äldre manual används bara för COD-grundprincipen; aktuella Forever-tider och postbegränsningar påstås inte vara verifierade.
+
+
+## Raidplanerare
+
+`raid-planner.js` ger den separata sidan `#planner`: upp till 20 lokala raidplaner, datum och starttid i Europe/Stockholm, egna rollmål, manuell deltagarlista med klass/roll/status, grupper om fem, uppgiftsnotiser och förberedelsechecklista. Endast bekräftade räknas mot mål och platser. Överfulla grupper, för stor trupp och saknade roller varnas. Ny kväll kan kopieras med datum och checklistor nollställda samt svar återställda till Kanske.
+
+Planer sparas under `wow-raid-plans-v1`. Text kan kopieras manuellt till gruppen. Versionsmärkt JSON exporteras/importeras som en ny plan utan att ersätta befintliga planer. Ingen server, gemensam anmälan, Discord-koppling, kalenderpåminnelse eller automatisk optimering ingår. Planlänken delar inte lokala data. Inspirationskällor är Raid-Helpers dokumentation för event/svar och RaidPlan.io för uppgifter och visuell planering. Inga externa kartor eller bilder har kopierats. Tester täcker importvalidering, lagring, statussummering, gruppkonflikter och HTML-escaping.

@@ -18,12 +18,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: node --check app.js && node --check data.js && node --check world.js && node --check professions.js && node --check dungeons.js && node --check details.js && node --check player-guides.js && node --check auction-house.js && node --check calculators.js && node --check player-ui.js && node --check dungeon-runs.js && node --check lore-more.js && node --check lore.js && node --check research.js && node --check scenes.js && node --test tests/*.test.cjs
+      - run: node --check app.js && node --check data.js && node --check world.js && node --check professions.js && node --check dungeons.js && node --check details.js && node --check player-guides.js && node --check raid-planner.js && node --check auction-house.js && node --check calculators.js && node --check player-ui.js && node --check dungeon-runs.js && node --check lore-more.js && node --check lore.js && node --check research.js && node --check scenes.js && node --test tests/*.test.cjs
       - uses: actions/configure-pages@v5
       - name: Prepare static output
         run: |
           mkdir _site
-          cp index.html app.js data.js world.js professions.js dungeons.js details.js research.js lore.js lore-more.js dungeon-runs.js player-guides.js calculators.js player-ui.js auction-house.js scenes.js style.css areas.css compass.svg landscape.svg _site/
+          cp index.html app.js data.js world.js professions.js dungeons.js details.js research.js lore.js lore-more.js dungeon-runs.js player-guides.js calculators.js player-ui.js auction-house.js raid-planner.js scenes.js style.css areas.css compass.svg landscape.svg _site/
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
