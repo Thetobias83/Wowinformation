@@ -80,3 +80,8 @@ Planer sparas under `wow-raid-plans-v1`. Text kan kopieras manuellt till gruppen
 
 
 Raidplaneraren visar nu bossfighten först och kalender/trupp i en hopfällbar stödsektion. Upp till 12 bossplaner per kväll har 1–8 faser med signal, position och upp till 12 klass-/rolluppgifter per fas. Ansvarig och reserv anges manuellt med namnförslag från bekräftade deltagare. Filtrerat läsläge, luckindikator, direkt sparning och text/JSON-export omfattar fightplanerna. Äldre planer och JSON utan fights stöds. Träningsexemplet är uttryckligen påhittat. Onyxias startmall återanvänder sidans märkta Classic-underlag; inga nya Forever-mekaniker påstås vara verifierade.
+
+
+## Redaktionell språkprofil
+
+Synliga texter använder sakliga rubriker, konkreta instruktioner och vedertagna speltermer. Slogans och skämtsamma formuleringar har ersatts i navigation, startsida, guider och verktyg. Lore behåller berättelsens innehåll och attribution. Guide-ID:n, länkar och nycklar för sparade anteckningar är oförändrade.

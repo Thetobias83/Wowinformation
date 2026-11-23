@@ -16,7 +16,7 @@ test('every guide and every available tab renders without exceptions',()=>{
  for(const r of routes){context.location.hash='#guide/'+r.id+'/'+r.tab;vm.runInContext('render()',context);const html=element('#main').innerHTML;assert(html.includes('area-panel'),r.id+'/'+r.tab);assert(!html.includes('undefined'),r.id+'/'+r.tab);assert(html.includes('aria-current="page"'),r.id+'/'+r.tab);}
 });
 test('invalid guide and tab URLs have safe fallbacks',()=>{
- const {context,element}=environment();context.location.hash='#guide/does-not-exist';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('hittades inte'));context.location.hash='#guide/duskwood/invalid';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('DIN SNABBGUIDE'));
+ const {context,element}=environment();context.location.hash='#guide/does-not-exist';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('hittades inte'));context.location.hash='#guide/duskwood/invalid';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('PRAKTISK ÖVERSIKT'));
 });
 test('all category routes and the source page render',()=>{
  const {context,element}=environment();for(const route of ['home','zones','dungeons','raids','professions','gold','secrets','saved','sources']){context.location.hash='#'+route;vm.runInContext('render()',context);assert(element('#main').innerHTML.length>100,route);}
@@ -28,9 +28,9 @@ test('wiki adaptations display attribution and are included in full-text search'
 });
 
 test('run plans link the zone story and explain the reason behind each tip',()=>{
- const {context,element}=environment();context.location.hash='#guide/deadmines/run';vm.runInContext('render()',context);let html=element('#main').innerHTML;assert(html.includes('Rutt &amp; tips'));assert(html.includes('Två faser är en fight'));assert(html.includes('Varför?'));assert(html.includes('#guide/westfall/lore'));
- context.location.hash='#guide/deadmines/guide';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('Varför ligger äventyret här?'));
- context.location.hash='#guide/deadmines/bosses';vm.runInContext('render()',context);html=element('#main').innerHTML;assert(html.includes('Smart tips'));assert(html.includes('boss-note-2'));
+ const {context,element}=environment();context.location.hash='#guide/deadmines/run';vm.runInContext('render()',context);let html=element('#main').innerHTML;assert(html.includes('Rutt &amp; tips'));assert(html.includes('Förbered övergången från Shredder till Sneed'));assert(html.includes('Varför?'));assert(html.includes('#guide/westfall/lore'));
+ context.location.hash='#guide/deadmines/guide';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('Dungeonens koppling till området'));
+ context.location.hash='#guide/deadmines/bosses';vm.runInContext('render()',context);html=element('#main').innerHTML;assert(html.includes('Taktiskt råd'));assert(html.includes('boss-note-2'));
 });
 
 test('new sections expose usable stats, class-role links and calculators',()=>{
@@ -39,13 +39,13 @@ test('new sections expose usable stats, class-role links and calculators',()=>{
  ['#guide/role-tank/guide',['class-warrior','class-paladin','class-druid']],
  ['#guide/class-druid/stats',['björn','katt','Balance','Restoration']],
  ['#guide/class-hunter/tools',['data-stat-weight','Ditt verifierade bonusmål','inte DPS']],
- ['#guide/gold-cloth/guide',['Northfold','När byter','Räkna rundans']],
+ ['#guide/gold-cloth/guide',['Northfold','När metoden','Räkna rundans']],
  ['#guide/gold-cloth/tools',['Förlorade depositioner','data-calculator="gold"','Total tid']]
  ]){context.location.hash=route;vm.runInContext('render()',context);for(const text of checks)assert(element('#main').innerHTML.includes(text),route+': '+text);}
 });
 
-test('auction hub exposes strategies, worked examples and independent batch and actual calculators',()=>{const {context,element}=environment();for(const [tab,expected] of [['strategies','Åtta sätt'],['examples','Bara halva lagret'],['tools','ah-quantity'],['guide','En enkel handelsjournal']]){context.location.hash='#guide/auction-house/'+tab;vm.runInContext('render()',context);assert(element('#main').innerHTML.includes(expected),tab);}const html=element('#main').innerHTML;assert(html.includes('Egna notiser'));context.location.hash='#guide/auction-house/tools';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('calc-sales'));assert.equal(vm.runInContext('AUCTION_STRATEGIES.length',context),8);});
+test('auction hub exposes strategies, worked examples and independent batch and actual calculators',()=>{const {context,element}=environment();for(const [tab,expected] of [['strategies','Åtta sätt'],['examples','Bara halva lagret'],['tools','ah-quantity'],['guide','En enkel handelsjournal']]){context.location.hash='#guide/auction-house/'+tab;vm.runInContext('render()',context);assert(element('#main').innerHTML.includes(expected),tab);}const html=element('#main').innerHTML;assert(html.includes('Egna anteckningar'));context.location.hash='#guide/auction-house/tools';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('calc-sales'));assert.equal(vm.runInContext('AUCTION_STRATEGIES.length',context),8);});
 
 test('raid planner renders its own route, escapes imported names and links from raids',()=>{const {context,element}=environment();context.location.hash='#planner';vm.runInContext('render()',context);let html=element('#main').innerHTML;for(const expected of ['rp-settings','rp-add','rp-group-board','rp-output','Europe/Stockholm','liveanmälan'])assert(html.includes(expected),expected);vm.runInContext('rpCurrent().players.push({id:"x",name:"<img src=x onerror=alert(1)>",className:"Priest",role:"healer",status:"confirmed",group:1,job:"<script>bad</script>"});render()',context);html=element('#main').innerHTML;assert(!html.includes('<img src=x'));assert(html.includes('&lt;img'));context.location.hash='#raids';vm.runInContext('render()',context);assert(element('#main').innerHTML.includes('href="#planner"'));});
 
-test('fight execution is first, with phases, class-role assignments and preserved support tools',()=>{const {context,element}=environment();context.location.hash='#planner';vm.runInContext('render()',context);let html=element('#main').innerHTML;assert(html.indexOf('id="rp-fight"')<html.indexOf('id="rp-settings"'));for(const text of ['Fas 1','Ansvarig spelare','Reserv / avlösare','Gör följande','Visa klass','Visa roll'])assert(html.includes(text),text);vm.runInContext('rpCurrent().raid="onyxia";rpCurrent().fights=[rpFightFromGuide(rpCurrent())];render()',context);html=element('#main').innerHTML;assert(html.includes('förberedande Classic-plan'));assert(html.includes('Deep Breath'));assert(html.includes('Hämta bossunderlag'));assert(html.includes('Priest'));});
+test('fight execution is first, with phases, class-role assignments and preserved support tools',()=>{const {context,element}=environment();context.location.hash='#planner';vm.runInContext('render()',context);let html=element('#main').innerHTML;assert(html.indexOf('id="rp-fight"')<html.indexOf('id="rp-settings"'));for(const text of ['Fas 1','Ansvarig spelare','Reserv / avlösare','Uppgift under fasen','Visa klass','Visa roll'])assert(html.includes(text),text);vm.runInContext('rpCurrent().raid="onyxia";rpCurrent().fights=[rpFightFromGuide(rpCurrent())];render()',context);html=element('#main').innerHTML;assert(html.includes('förberedande Classic-plan'));assert(html.includes('Deep Breath'));assert(html.includes('Hämta bossunderlag'));assert(html.includes('Priest'));});

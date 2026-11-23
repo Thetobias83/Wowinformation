@@ -58,7 +58,7 @@ const LORE_CHAPTERS=[
  ],people:[['Jammal’an the Prophet','En ledande Atal’ai-präst i templets berättelse.'],['Ysera','Drakaspekten som lät sänka templet.'],['Hakkar the Soulflayer','Blodsguden som kulten försöker kalla tillbaka.']]},
  {id:'uldaman',title:'Uldaman: ett arkiv som försvarar sig',article:'Adventure_Guide_Classic_dungeons',guides:['badlands','uldaman'],paragraphs:[
  'Uldaman är inte bara en gruva med gamla skatter. Dess titanska salar och väktare förklarar varför fynden kan ha betydelse för hela folks ursprung. Ironaya anförtroddes ansvaret för anläggningens byggande och underhåll, även om den en gång storslagna platsen senare förföll.',
- 'Längre in skyddar Archaedas ett av titanernas stora arv. Väktaren och hans tjänare är hinder därför att platsen är avsedd att bevaras och bevakas. Att äventyrare vill förstå eller plundra fynden betyder inte att anläggningen automatiskt betraktar dem som välkomna.',
+ 'Längre in skyddar Archaedas ett av titanernas stora arv. Väktaren och hans tjänare är hinder därför att platsen är avsedd att bevaras och bevakas. Anläggningens försvar reagerar även på besökare som undersöker eller försöker ta föremål.',
  'Dark Iron-dvärgen Galgann Firehammer företräder samtidigt ett mer politiskt intresse: att använda de gamla föremålens kraft mot klanens fiender. Dungeonens historia rymmer alltså både sökandet efter kunskap och kampen om vem som får kontrollera den. Detta förklarar mötenas bakgrund; bossmekanikerna står separat.'
  ],people:[['Ironaya','Den titanska väktare som fick ansvar för anläggningen.'],['Archaedas','Den uråldriga försvararen av de djupare skatterna.'],['Galgann Firehammer','Dark Iron-företrädaren som söker föremålens makt.']]}
 ];

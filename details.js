@@ -1,5 +1,5 @@
 const patchBoss=(id,name,values)=>{const g=GUIDES.find(g=>g.id===id),b=g?.bosses?.find(b=>b.name===name);if(b)Object.assign(b,values);};
-patchBoss('city-of-dalaran','Mana Devourer',{mechanic:'Dränerar mana; rensa rummet före pull.',healer:'Spara mana.',dps:'Avsluta före manatorsk.'});
+patchBoss('city-of-dalaran','Mana Devourer',{mechanic:'Dränerar mana; rensa rummet före pull.',healer:'Spara mana.',dps:'Prioritera skada innan gruppens mana tar slut.'});
 patchBoss('city-of-dalaran','Shade of the Archmage',{mechanic:'Återvändande manasfär och Arcane Explosion.',tank:'Flytta från sfären.',healer:'Håll avstånd.',dps:'Undvik explosionens radie.'});
 patchBoss('drowned-city','Min’loth the Serpent',{mechanic:'Trollfas övergår till giftig orm.',tank:'Säkra fasbytet.',healer:'Spara mana; rensa gift.',dps:'Hjälp gift-dispel.'});
 const RAID_LORE={
