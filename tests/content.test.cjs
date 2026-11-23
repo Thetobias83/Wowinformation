@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const root=path.join(__dirname,'..');
-const files=['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','dungeon-runs.js','player-guides.js','calculators.js','player-ui.js','auction-house.js','raid-planner.js','scenes.js'];
+const files=['data.js','world.js','professions.js','dungeons.js','details.js','research.js','lore.js','lore-more.js','dungeon-runs.js','player-guides.js','calculators.js','player-ui.js','auction-house.js','raid-planner.js','cities.js','scenes.js'];
 const data=vm.runInNewContext(files.map(p=>fs.readFileSync(path.join(root,p),'utf8')).join('\n')+';({GUIDES,SOURCES,CATEGORIES,ZONE_BOOK,PROFESSION_BOOK,LORE_CHAPTERS,scene})');
 test('every guide has a unique routable ID and a valid category',()=>{
  const ids=new Set();for(const g of data.GUIDES){assert.match(g.id,/^[a-z0-9-]+$/);assert(!ids.has(g.id),g.id);ids.add(g.id);assert(data.CATEGORIES.some(c=>c[0]===g.category));assert(g.title&&g.intro&&g.subtitle);}
@@ -24,7 +24,7 @@ test('all 35 current Forever dungeon wings are present',()=>{
 });
 test('all area pages have a theme, lore and important people',()=>{
  for(const g of data.GUIDES.filter(g=>['zones','dungeons','raids'].includes(g.category))){assert(g.biome,g.id);assert(g.lore?.length,g.id);assert(g.npcs?.length,g.id);assert(g.sources?.length,g.id);assert.match(data.scene(g),/<svg/);}
- assert.equal(data.GUIDES.filter(g=>g.category==='zones').length,44);
+ assert.equal(data.GUIDES.filter(g=>g.category==='zones').length,50);
 });
 test('every profession has four skill stages, camping, materials and gold advice',()=>{
  const list=data.GUIDES.filter(g=>g.category==='professions');assert.equal(list.length,12);for(const g of list){assert.equal(g.profession.stages.length,4,g.id);assert.equal(g.profession.camp.length,3,g.id);assert(g.profession.tools&&g.profession.pair&&g.gold,g.id);}
